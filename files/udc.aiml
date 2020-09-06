@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+    
+    <!-- powitanie -->
+   
+    <category>
+        <pattern><set>powitanie</set></pattern>
+        <template>
+            <condition name="count">
+                <li value="1">
+                    Już się witaliśmy.
+                </li>
+                <li>
+                    <random>
+                    <li>Cześć</li>
+                    <li>Witam</li>
+                    <li>Dzień dobry</li>
+                </random>
+                <split/>
+                Jestem botem, który pomoże Ci wstępnie ustalić usterkę w twoim laptopie i wskaże najlepszego serwisanta dla tej usterki.
+                <split/>
+                W czym problem? 
+                <think><set name ="count">1</set></think>
+                </li> 
+            </condition>
+        </template>
+    </category>
+    
+    <!--  -->
+    
+    <category>
+        <pattern>^ <set>zepsuty</set> ^ <set>laptop</set> </pattern>
+        <template>Czy jesteś w stanie dokładniej opisać usterkę?</template>
+    </category>
+    <category>
+        <pattern>^ <set>laptop</set> ^ <set>zepsuty</set></pattern>
+        <template>Czy jesteś w stanie dokładniej opisać usterkę?</template>
+    </category>
+    
+    <!-- problemy z zasilaniem -->
+    
+    <category>
+        <pattern>^ <set>laptop</set> ^ <set>uruchomienie</set> ^ </pattern>
+        <template>Poruszaj kablem od zasilania przy samym gnieździe. Może to coś pomoże :)
+        <think><set name ="topic">zasilanie</set><set name = "rozmawiamyO">zasilanie</set></think>
+        </template>
+    </category> 
+    <category>
+        <pattern>^ <set>uruchomienie</set> ^ </pattern>
+        <template>Poruszaj kablem od zasilania przy samym gnieździe.
+        <think><set name ="topic">zasilanie</set><set name = "rozmawiamyO">zasilanie</set></think>
+        </template>
+    </category>
+    
+    <topic name="zasilanie">
+        <category>
+            <that>Poruszaj kablem od zasilania przy samym gnieździe</that>
+            <pattern>^ <set>niedziala2</set> ^</pattern>
+            <template><srai>MIGANIEDIODYZASILAJACEJ</srai></template>
+        </category>
+        <category>
+            <that></that>
+            <pattern>MIGANIEDIODYZASILAJACEJ</pattern>
+            <template>Czy miga dioda od zasiania gdy poruszasz kablem?</template>
+        </category>
+        <category>
+            <pattern>*</pattern>
+            <template>
+                <think><set name="inp"><star/></set></think>
+                <condition name="inp">
+                    <li value="TAK"> Wyrobione jest gniazdo zasilające. <split/> <srai>GNIAZDO</srai></li>
+                    <li value="NIE"> Możliwe, że zasilacz jest zepsuty. <split/> <srai>ZASILACZ</srai></li>
+                    <li>Odpowiedz Tak lub Nie </li>
+                </condition>
+            </template>
+        </category>
+    </topic>
+    
+     <!-- problemy z wyświetlanym obrazem -->
+    
+    <category>
+        <pattern>^ EKRANIE <set>wyswietlanie</set> ^ <set>bledy</set> </pattern>
+        <template>
+            <think><set name="problem"><star index="4"/></set></think>
+            <srai>PROBLEMWYSWIETLANIE</srai> 
+        </template>
+    </category>
+    
+    <category>
+        <pattern><set>wyswietlanie</set> ^ <set>bledy</set> ^</pattern>
+        <template>
+            <think><set name="problem"><star index="3"/></set></think>
+            <srai>PROBLEMWYSWIETLANIE</srai> 
+        </template>
+    </category>
+     
+     <category>
+         <pattern>PROBLEMWYSWIETLANIE</pattern>
+         <template>
+             <condition name = "problem">
+                    <li value = "artefakty"> <think> <set name ="topic">grafika</set><set name = "rozmawiamyO">grafika</set></think> <srai>ARTEFAKTY</srai> </li>
+                    <li value = "artefakt"> <think> <set name ="topic">grafika</set><set name = "rozmawiamyO">grafika</set></think> <srai>ARTEFAKTY</srai> </li>
+                    <li value = "paski"> <think> <set name ="topic">grafika</set><set name = "rozmawiamyO">grafika</set></think> <srai>ARTEFAKTY</srai> </li>
+                    <li value = "błąd"><think><set name ="topic">blad</set><set name = "rozmawiamyO">blad</set></think><srai>PYTANIE O BLAD</srai></li>
+                    <li value = "blad"><think> <set name ="topic">blad</set><set name = "rozmawiamyO">blad</set></think><srai>PYTANIE O BLAD</srai></li>
+                    <li value = "błędy"><think> <set name ="topic">blad</set><set name = "rozmawiamyO">blad</set></think><srai>PYTANIE O BLAD</srai></li>
+                    <li value = "bledy"><think> <set name ="topic">blad</set><set name = "rozmawiamyO">blad</set></think><srai>PYTANIE O BLAD</srai></li>
+                    <li value = "blue screen"><think> <set name ="topic">system</set><set name = "rozmawiamyO">system</set></think> <srai>BLUE SCREEN</srai></li>
+                    <li value = "niebieski ekran"><think> <set name ="topic">system</set><set name = "rozmawiamyO">system</set></think> <srai>BLUE SCREEN</srai></li>
+            </condition>
+         </template>
+     </category>
+    
+    <topic name="blad">
+         <category>
+            <pattern>PYTANIE O BLAD</pattern>
+            <template>Masz na myśli nieprawidłowości w wyświetlaniu grafiki na ekranie?</template>
+        </category>
+        <category>
+            <pattern>TAK ^</pattern>
+            <template>
+                <think> 
+                    <set name ="topic">grafika</set>
+                    <set name = "rozmawiamyO">grafika</set>
+                    <set name = "problem"></set>
+                </think> 
+                <srai>ARTEFAKTY</srai>
+            </template>
+        </category>
+        <category>
+            <pattern>NIE ^</pattern>
+            <template>
+                <think> 
+                    <set name ="topic">system</set>
+                    <set name = "rozmawiamyO">system</set>
+                    <set name = "problem"></set>
+                </think> 
+                <srai>BLUESCREENPYTANIE</srai></template>
+        </category>
+        
+        <category>
+            <pattern>*</pattern>
+            <template><srai>PYTANIE O BLAD</srai></template>
+        </category>
+    </topic>
+   
+    <topic name="grafika">
+        <category>
+            <pattern>GRAFARTEF</pattern>
+            <template><image>https://obrazki.elektroda.pl/9098189900_1368182449.jpg</image></template>
+        </category>
+        <category>
+            <pattern>ARTEFAKTY</pattern>
+            <template>
+                <image>https://obrazki.elektroda.pl/9098189900_1368182449.jpg</image>
+                <srai>GRAFIKAPRZYCZYNY</srai>
+            </template>
+        </category>
+        <category>
+            <pattern>GRAFIKAPRZYCZYNY</pattern>
+            <template>Możliwe przyczyny:
+                <split/>
+                <ul>
+    	            <li>Uszkodzona płyta główna</li>
+    	            <li>Uszkodzona karta grafiki</li>
+    	            <li>Uszkodzona matryca</li>
+    	            <li>Uszkodzona taśma matrycy</li>
+    	            <li>Uszkodzony inwerter</li>
+                </ul>
+                <split/>
+                <think><set name="topic"></set></think>
+                <think><set name="rozmawiamyO"></set></think>
+                <srai>GRAFA</srai>
+            </template>
+        </category>
+        <category>
+            <pattern>*</pattern>
+            <template>
+                <think><set name="inp3"><star/></set></think>
+                <condition name="inp3">
+                    <li value="TAK"> Ok chyba wiem co stanowi problem <split/> <srai>GRAFIKAPRZYCZYNY</srai> </li>
+                    <li value="NIE"> To może matrycę masz uszkodzona??<split/> Przyjrzyj się temu zdjęciu:
+                        <think>
+                            <set name ="topic">matryca</set>
+                            <set name = "rozmawiamyO">matryca</set>
+                            <set name = "inp3"></set>
+                        </think>
+                        <srai>MATRYCAUSZK</srai> </li>
+                    <li>Odpowiedz Tak lub Nie </li>
+                </condition>
+            </template>
+        </category>
+    </topic>        
+    
+    <topic name = "matryca">
+        <category>
+            <pattern>MATRYCAUSZK</pattern>
+            <template>
+                <image>https://3giga.pl/wp-content/uploads/2014/05/uszkodzenie-matryc.jpg</image>
+            </template>
+        </category>
+        <category>
+            <pattern>*</pattern>
+            <template>
+                <think><set name="inp4"><star/></set></think>
+                <condition name="inp4">
+                    <li value="TAK"> Uszkodzona jest matryca<split/>
+                        <srai>MAT</srai>
+                        <think>
+                            <set name ="topic"></set>
+                            <set name = "rozmawiamyO"></set>
+                            <set name = "inp4"></set>
+                        </think>
+                    </li>
+                    <li value="NIE"> To już muszę przekierować Ciebie do najlepszego specjalisty od zadań specjalnych :)<split/> 
+                        <srai>SPEC</srai>
+                        <think>
+                            <set name ="topic"></set>
+                            <set name = "rozmawiamyO"></set>
+                            <set name = "inp4"></set>
+                        </think>
+                        <srai></srai>
+                    </li>
+                    <li>Odpowiedz Tak lub Nie </li>
+                </condition>
+            </template>
+        </category>
+    </topic>
+    
+    
+    <topic name="system">
+        <category>
+            <pattern>BLUESCREENPYTANIE</pattern>
+            <template>Czy wyświetla Ci się taki ekran?
+                <image>https://i.ytimg.com/vi/ZxCZ_IDdcRI/maxresdefault.jpg</image>
+            </template>
+        </category>
+        <category>
+            <pattern>*</pattern>
+            <template>
+                <think><set name="inp2"><star/></set></think>
+                <condition name="inp2">
+                    <li value="TAK"> Niebieski ekran śmierci :)<split/> <srai>SYSTEMPRZYCZYNY</srai> </li>
+                    <li value="NIE"> To może masz takie artefakty jak na zdjęciu poniżej??<split/>
+                        <think>
+                            <set name ="topic">grafika</set>
+                            <set name = "rozmawiamyO">grafika</set>
+                            <set name = "inp2"></set>
+                        </think>
+                        <srai>GRAFARTEF</srai> </li>
+                    <li>Odpowiedz Tak lub Nie </li>
+                </condition>
+            </template>
+        </category>
+        
+        <category>
+            <pattern>SYSTEMPRZYCZYNY</pattern>
+            <template>Możliwe przyczyny:
+                <split/>
+                <ul>
+    	            <li>Uszkodzona płyta główna</li>
+    	            <li>Uszkodzona pamięć RAM</li>
+    	            <li>Problem z systemem operacyjnym</li>
+                </ul>
+                <split/>
+                <think><set name="topic"></set></think>
+                <think><set name="rozmawiamyO"></set></think>
+                <srai>BSCR</srai>
+            </template>
+        </category>
+        
+    </topic>
+    <!-- specjaliści -->
+    
+    <category>
+        <pattern>GNIAZDO</pattern>
+        <template>Specjalistą od uszkodzonych gniazd jest Ferdynand Suchoklates tel. 2345234148 <split/><srai>KONIEC</srai>
+        </template>
+    </category>
+    <category>
+        <pattern>ZASILACZ</pattern>
+        <template>Specjalisą od zasilaczy jest Amroży Klesk tel.123234345 lub email:ambrozykleks@brokenlaptop.pl <split/><srai>KONIEC</srai>
+        </template>
+    </category>
+    <category>
+        <pattern>BSCR</pattern>
+        <template>Specjalisą od tych problemów jest Amadeusz Kość tel.999888777<split/><srai>KONIEC</srai></template>
+    </category>
+    <category>
+        <pattern>GRAFA</pattern>
+        <template>Specjalisą od grafiki jest Tadeusz Gnat tel.999555777<split/><srai>KONIEC</srai></template>
+    </category>
+    <category>
+        <pattern>MAT</pattern>
+        <template>Specjalistą od uszkodzeń matrycy jest Adam Małysz tel. 2335234148 <split/><srai>KONIEC</srai>
+        </template>
+    </category>
+    <category>
+        <pattern>SPEC</pattern>
+        <template> Alojzy Popsuj tel. 2345234148 <split/><srai>KONIEC</srai>
+        </template>
+    </category>
+    
+     <!-- zakończenie -->
+    
+    <category>
+        <pattern>KONIEC</pattern>
+        <template>Dziękuję za rozmowę.</template>
+    </category>
+    
+     <!--  -->
+    
+     <category>
+        <pattern>*</pattern>
+        <template>
+            Nie znam odpowiedzi. 
+            <condition name="rozmawiamyO" >
+                <li value="zasilanie"> <split/> Rozmawiamy teraz o problemie z zasilaniem.</li>
+                <li value="grafika"> <split/> Rozmawiamy teraz o problemie związanym z grafiką.</li>
+                <li value="system"> <split/> Rozmawiamy teraz o problemie związanym z systemem.</li>
+                <li value="blad"> <split/> Rozmawiamy teraz o pojawiającym się na ekranie błędzie/ach.</li>
+                <li value="matryca"> <split/> Rozmawiamy teraz o uszkodzeniach matrycy.</li>
+            </condition>
+        </template>
+    </category>
+    
+    <category>
+        <pattern>^ <set>temat</set> ^ <set>mowa</set> </pattern>
+        <template>
+            <condition name="rozmawiamyO">
+                <li value="zasilanie">Coś jest nie tak z zasilaniem.</li>
+                <li value="grafika">Mówimy o problemie zwiazanym z grafika.</li>
+                <li value="system">Mówimy o błędach systemu.</li>
+                <li value="blad">Poruszamy temat błędu na ekranie.</li>
+                <li value="matryca">Poruszamy temat uszkodzeń matrycy.</li>
+                <li> Prowadzimy wolna rozmowe, bez konkretnego tematu</li>
+            </condition>
+        </template>
+    </category>
+</aiml>
+
