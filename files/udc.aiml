@@ -2,7 +2,7 @@
 <aiml>
     
     <!-- powitanie -->
-   
+    
     <category>
         <pattern><set>powitanie</set></pattern>
         <template>
@@ -19,7 +19,7 @@
                 <split/>
                 Jestem botem, który pomoże Ci wstępnie ustalić usterkę w twoim laptopie i wskaże najlepszego serwisanta dla tej usterki.
                 <split/>
-                Z czym masz problem? 
+                Co masz za problem? 
                 <think><set name ="count">1</set></think>
                 </li> 
             </condition>
