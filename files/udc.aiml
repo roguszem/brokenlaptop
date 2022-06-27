@@ -19,7 +19,7 @@
                 <split/>
                 Jestem botem, który pomoże Ci wstępnie ustalić usterkę w twoim laptopie i wskaże najlepszego serwisanta dla tej usterki.
                 <split/>
-                W czym problem? 
+                Z czym masz problem? 
                 <think><set name ="count">1</set></think>
                 </li> 
             </condition>
@@ -105,12 +105,13 @@
                     <li value = "blad"><think> <set name ="topic">blad</set><set name = "rozmawiamyO">blad</set></think><srai>PYTANIE O BLAD</srai></li>
                     <li value = "błędy"><think> <set name ="topic">blad</set><set name = "rozmawiamyO">blad</set></think><srai>PYTANIE O BLAD</srai></li>
                     <li value = "bledy"><think> <set name ="topic">blad</set><set name = "rozmawiamyO">blad</set></think><srai>PYTANIE O BLAD</srai></li>
-                    <li value = "blue screen"><think> <set name ="topic">system</set><set name = "rozmawiamyO">system</set></think> <srai>BLUE SCREEN</srai></li>
-                    <li value = "niebieski ekran"><think> <set name ="topic">system</set><set name = "rozmawiamyO">system</set></think> <srai>BLUE SCREEN</srai></li>
+                    <li value = "blue screen"><think> <set name ="topic">system</set><set name = "rozmawiamyO">system</set></think> <srai>SYSTEMPRZYCZYNY</srai></li>
+                    <li value = "niebieski ekran"><think> <set name ="topic">system</set><set name = "rozmawiamyO">system</set></think> <srai>SYSTEMPRZYCZYNY</srai></li>
             </condition>
          </template>
      </category>
     
+    <!-- gdy napiszemy np. mam bledy na ekranie -->>
     <topic name="blad">
          <category>
             <pattern>PYTANIE O BLAD</pattern>
@@ -144,6 +145,7 @@
         </category>
     </topic>
    
+   <!-- temat grafiki -->
     <topic name="grafika">
         <category>
             <pattern>GRAFARTEF</pattern>
@@ -170,6 +172,7 @@
                 <split/>
                 <think><set name="topic"></set></think>
                 <think><set name="rozmawiamyO"></set></think>
+                <think><set name="problem"></set></think>
                 <srai>GRAFA</srai>
             </template>
         </category>
@@ -192,6 +195,7 @@
         </category>
     </topic>        
     
+     <!-- temat matrycy -->
     <topic name = "matryca">
         <category>
             <pattern>MATRYCAUSZK</pattern>
@@ -227,7 +231,7 @@
         </category>
     </topic>
     
-    
+     <!-- temat błędu systemu -->
     <topic name="system">
         <category>
             <pattern>BLUESCREENPYTANIE</pattern>
